@@ -12,5 +12,5 @@ home('https://github.com/ai-university-aiu/connectome-atomic').
 download('https://github.com/ai-university-aiu/connectome-atomic/releases').
 % State the fact: requires([]) — dependencies are declared as library imports in the module.
 requires([]).
-% State the fact: layer(2) is NOT used here — the thalamus is a region above the neurochemicals it reads.
+% State the fact: layer(4) — the thalamus is a region above the neurochemicals it reads; below the interfaces.
 layer(4).
