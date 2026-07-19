@@ -1,0 +1,132 @@
+CONNECTOME-ATOMIC COMPLETION  (v1)
+
+This is the Completion volume of the six-file SPARC set (Specification,
+Pseudocode, Architecture, Refinement, Completion) for the connectome-atomic
+repository. Completion states the delivered status: what passed, the final gate
+results in honest form, the PrologAI platform the arm was built against, and the
+repository's honest limits. The repository is FROZEN evidence; this file
+DESCRIBES its delivered state and changes no code.
+
+Acronyms are spelled out on first use. Author: the PrologAI Community.
+
+
+WHAT WAS DELIVERED
+
+connectome-atomic is delivered as the CONTROL arm of the Wave 3 granularity
+experiment: the identical Wave 2 vertical slice re-carved under one rule, one
+pack per named construct, into eleven packs across six layers. The running code
+is complete and the two prose deliverables that are the actual product - LEDGER.md
+(the seven ATOMIC findings) and COMPARISON.md (the eight-axis rubric) - are
+written and argued from the built code.
+
+The eleven packs: three shared-infrastructure packs (neural_lattice,
+causal_grounding, neuroendocrine_strata), two neurochemicals (dopamine,
+cortisol), one computation (plasticity), three regions (cortex, striatum,
+thalamus), and two interface conduits (corticostriatal_conduit,
+nigrostriatal_conduit).
+
+
+FINAL GATE RESULTS (IN HONEST FORM)
+
+• Behavioural closure - PASS. The reentrant cortico-basal-ganglia-thalamo-
+  cortical loop closes for N laps with the proven verdict (three times N plus one
+  hops, a strictly monotonic token, the exact region sequence, the cortex
+  re-entering N times). The narrated trace is byte-identical to the Wave 2 slice,
+  proven by a direct comparison with the Git "diff" command.
+
+• Layer rule - PASS. PrologAI's unmodified layer construct reports zero upward
+  edges across the six declared levels (zero through five), over all eleven packs.
+
+• Closure discipline - PASS. Zero actor-to-actor references among the three
+  region packs; coordination is entirely through numbered phase cues on the
+  Lattice; no busy-poll (regions block on a queue and are woken by notification).
+
+• Structure grounding - PASS. All twenty-eight Causalontology 2.0.0 records
+  validate against their JSON (JavaScript Object Notation) schemas and the local
+  semantic rules; the cut touches ten distinct kinds; the cortisol
+  causal_relation_object classifies as skipping with an empty skip-gap list; the
+  Ed25519-signed provenance assertion verifies. Every content-addressed
+  identifier is byte-identical to the slice's.
+
+• Pack unit tests - PASS. Every one of the eleven packs ships an in-pack test
+  suite (the PrologAI Unit framework, PLUnit) and all suites pass.
+
+• Mini regression - PASS as a ten percent spot-check, stated honestly and NOT
+  rounded up: the Abstraction and Reasoning Corpus for Artificial General
+  Intelligence, first generation (ARC-AGI-1), scored FORTY of FORTY sampled
+  tasks (40/40), and the second generation (ARC-AGI-2) scored TWELVE of TWELVE
+  sampled tasks (12/12). This is a ten percent sample of the full benchmarks. The
+  FULL regression (four hundred of four hundred and one hundred twenty of one
+  hundred twenty) is DEFERRED, not run here. The spot-check being green is
+  evidence of no obvious regression; it is explicitly NOT a claim of the full
+  four hundred of four hundred or one hundred twenty of one hundred twenty score.
+
+
+THE PROLOGAI PLATFORM THE ARM WAS BUILT AGAINST
+
+The repository does not embed a fixed PrologAI commit hash. It pins its platform
+by PATH, not by revision: every gate resolves a local PrologAI checkout at
+runtime through the environment variable PROLOGAI_HOME (default
+/home/ccaitwo/PrologAI) and reuses it UNMODIFIED, read-only. The specific
+PrologAI capabilities the arm depends on, all present in the platform it was
+built against, are: library(lattice) (coordination), library(cyclic_actor) (the
+actors pack, for the background region threads), library(causal_core) (the
+Causalontology 2.0.0 engine delivered in Work Package four hundred twenty-five,
+WP-425), library(layer) (the strict-layer-rule checker), and the additive
+conformance harness under tests/causalontology_conformance (JSON-schema
+validation, and pure-Prolog Ed25519 signing and verification). At the time of the
+build the PrologAI main branch carried the Wave 2 mini-regression work and the
+Causalontology 2.0.0 conformance suite (one hundred seven of one hundred seven
+vectors). Because the pin is by path, reproducing the gates requires a PrologAI
+checkout that still provides those interfaces; this reproducibility caveat is
+recorded here honestly rather than papered over with a commit hash the repository
+does not actually carry.
+
+
+HONEST LIMITS (THE OPEN LEDGER FINDINGS)
+
+The arm's job was to find walls, and it left seven standing. None was fixed,
+because a gap is a Ledger entry, never a commit to PrologAI. They remain open:
+
+• ATOMIC-1 (severity medium) - a structure-only cross-pack reference cannot be
+  distinguished from a runtime dependency; the cortex imports dopamine solely to
+  mint one bridge record, though its runtime never calls dopamine.
+
+• ATOMIC-2 (severity medium) - there is no dependency-aggregation or facade
+  construct, so a consumer must enumerate every fine-grained pack it touches; the
+  striatum imports three neurochemical packs where the slice imported one.
+
+• ATOMIC-3 (severity medium) - there is no cross-pack record registry, so
+  content-addressed identifiers are threaded by hand-exported accessor
+  predicates, densest at the interface conduits.
+
+• ATOMIC-4 (severity low) - co-locating a construct's structure with its runtime
+  fuses the two dependency faces: validating structure drags in the runtime
+  substrate, and running the pure behaviour drags in the grounding engine.
+
+• ATOMIC-5, ATOMIC-6, ATOMIC-7 (second sightings of the slice's P5, P6, P7) - the
+  layer construct still needs a hand-written wrapper to be pointed at an external
+  packs directory, still cannot see the PrologAI packs the arm sits on, and still
+  numbers layers in a per-repository namespace with no global coordinate, so the
+  three arms' layer numbers cannot even be compared to one another.
+
+Beyond the Ledger, the arm's own COMPARISON records its honest weaknesses as a
+decomposition: coupling grew about 5.8 times while packs grew about 1.8 times
+(superlinear), grounding fit is low by design (construct packs cut across the
+Causalontology kinds), and per-pack ceremony plus interface coupling are what
+would hurt first at the full one-hundred-forty-construct scale. The verdict of
+the three-arm experiment itself is not this repository's to give; it comes after
+the loops arm and the strata arm are read alongside this control.
+
+
+THIS REPOSITORY IS FROZEN EVIDENCE
+
+The code and behaviour of connectome-atomic are immutable. It is a preserved
+measurement, not a living system: its value is that it recorded exactly what
+building the identical anatomy at maximal granularity revealed, at a fixed point
+in time, with its behaviour and its data proven identical to the slice. These six
+SPARC documents describe that evidence; they add no capability and change no
+line. Nothing in this set proposes a modification to the frozen code, and the
+addition of these documentation files under docs/ preserves the frozen guarantee
+because it touches no pack, predicate, checker, workflow, structure record, or
+test.
