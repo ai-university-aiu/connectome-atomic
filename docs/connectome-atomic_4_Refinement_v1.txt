@@ -1,0 +1,149 @@
+CONNECTOME-ATOMIC REFINEMENT  (v1)
+
+This is the Refinement volume of the six-file SPARC set (Specification,
+Pseudocode, Architecture, Refinement, Completion) for the connectome-atomic
+repository. Refinement is the testing story: how the design was verified and
+improved, the checkers and gates that hold it, the adversarial pressure it was
+put under, and the one issue found and fixed during the build. The repository is
+FROZEN; this file DESCRIBES how it was verified and changes no code.
+
+Acronyms are spelled out on first use. Author: the PrologAI Community.
+
+
+THE VERIFICATION STRATEGY
+
+Because the deliverable is a FINDING, the verification job is unusual: it is not
+enough for the code to run; the code must PROVE that the single experimental
+variable (pack granularity) is the only thing that changed. So the verification
+has two goals at once - show the arm works, and show the arm changed nothing but
+the pack boundaries. Five gates plus a behavioural-identity proof and a
+data-identity proof carry that load.
+
+
+THE FIVE GATES
+
+Each gate is a script under bin/ that exits zero on success. They run
+independently and each targets one requirement.
+
+• bin/run_slice.sh - the behavioural gate. It assembles the SWI-Prolog library
+  path over the eleven arm packs plus the reused PrologAI packs, then ticks the
+  reentrant loop and PROVES closure inside run_slice.pl: the hop count must equal
+  three times the laps plus one, the region sequence must be cortex followed by N
+  repetitions of striatum-thalamus-cortex, the token must run 1 through 3N+1
+  strictly monotonically, and the cortex must have re-entered N times plus the
+  seed. Any deviation makes the verdict fail and the script exit one. The closure
+  verdict is the region packs' real end-to-end test - richer than any unit test,
+  because it exercises the three background threads coordinating through the
+  Lattice.
+
+• bin/check_layers.sh - the layer gate. It loads PrologAI's UNMODIFIED layer
+  construct (library(layer)) by its real path and calls its directory-scoped
+  report and check against the arm's packs directory, reusing the same construct
+  through its public predicates rather than reimplementing it. Exit zero means no
+  static import points upward across the six declared levels.
+
+• bin/check_no_coupling.sh - the closure-discipline gate. It strips every comment
+  (prose legitimately names regions) from each of the three region packs' source
+  and confirms no region's CODE contains any other region's name, in either
+  direction, and that the cues are numbered phase slots. This covers the case a
+  static import scan cannot: a region name carried as DATA in code. Exit zero
+  means zero actor-to-actor references.
+
+• bin/validate_structure.sh - the grounding gate. It runs validate_structure.pl,
+  which assembles the twenty-eight records from the nine record-owning packs and
+  checks each against its Causalontology 2.0.0 JSON schema and the local semantic
+  rules, confirms the cortisol causal_relation_object classifies as skipping with
+  an empty skip-gap list, and confirms the Ed25519-signed provenance assertion
+  verifies. It writes each record to structure/ and prints a per-kind coverage
+  summary (ten distinct kinds). Exit zero means every record is valid and both
+  the skip finding and the signature hold.
+
+• bin/run_tests.sh - the unit gate. It runs every pack's in-pack test suite (the
+  PrologAI Unit framework, PLUnit) in its own SWI-Prolog process. Each of the
+  eleven packs ships a test file, so no pack can rot silently. Exit zero means
+  every suite passes. This closes the platform's known trap in which a pack with
+  no in-pack test drops out of the regression and rots invisibly.
+
+
+THE TWO IDENTITY PROOFS
+
+These are the proofs that make the experiment valid, not just working.
+
+• Behavioural identity. The narrated glass-box trace the loop prints is compared,
+  line for line, against the Wave 2 slice's trace with the Git "diff" command.
+  The result is byte-identical: same hops, same tokens, same weights, same
+  dopamine decay, same cortisol event. Carving the code a new way changed nothing
+  the loop does.
+
+• Data identity. The twenty-eight structure records are regenerated from the
+  distributed packs and compared against the slice's records. Every
+  content-addressed identifier matches. Distributing the minting across nine
+  packs cost the data nothing - strong evidence that the Causalontology 2.0.0
+  content-addressed identity model is decomposition-agnostic and that the
+  grounding engine is unaffected by how the record definitions are packaged.
+
+
+THE ADVERSARIAL PRESSURE THE DESIGN WAS PUT UNDER
+
+The atomic arm was deliberately built as the STIFFEST test of the platform's
+packaging and layer constructs, because it has the most packs of the three arms.
+The pressure it applied, and what held:
+
+• The layer rule under its heaviest user. Eleven packs and a six-level stack, one
+  level taller than the slice's five (because plasticity split out from the
+  neurochemistry leaf and must sit above cortisol). The rule held with zero
+  violations and zero awkward placements. The strict layer rule scaled to the
+  most packs of any arm without friction - a good result for the construct.
+
+• The closure discipline under maximal fan-out. Even with the interfaces
+  reaching down to four other packs, the three REGION packs kept a clean seam:
+  zero actor-to-actor references, all coordination through numbered phase cues.
+  Two complementary guarantees back this up - the layer checker reports zero
+  region-to-region static import edges, and the coupling checker catches a region
+  name carried as data.
+
+• The grounding engine under distributed minting. Nine packs each mint their own
+  records against one shared vocabulary. All twenty-eight validated, and every
+  identifier matched the slice's.
+
+What the pressure SURFACED (recorded in the Ledger, not fixed in code, because a
+gap is a Ledger entry never a commit): four new packaging gaps - ATOMIC-1 (a
+structure-only cross-pack reference cannot be told from a runtime dependency),
+ATOMIC-2 (no dependency-aggregation facade, so a consumer must enumerate every
+fine-grained pack), ATOMIC-3 (no cross-pack record registry, so identifiers are
+threaded by hand-exported accessors), and ATOMIC-4 (co-locating structure with
+runtime fuses the two dependency faces) - plus three second sightings of the
+layer construct's known limits (ATOMIC-5, ATOMIC-6, ATOMIC-7, confirming the
+slice's findings about the checker wrapper, the invisible cross-repository edges,
+and the per-repository layer-number namespace).
+
+
+THE ISSUE FOUND AND FIXED DURING THE BUILD
+
+One correction was made after the initial scaffold, and it was documentation
+only. The thalamus pack carried a misleading layer comment that did not match
+what the code actually did; the layer DECLARATION itself was already correct. The
+fix corrected the comment alone, with no behaviour change (Git commit e872696,
+merged in 91f63a8). This is worth recording as a Refinement lesson precisely
+because the arm holds every line to English-Readable-Code: a comment that lies is
+a defect even when the code is right, so the comment was brought back into line
+with the declaration. No structure record, test, or runtime path was touched, and
+the identity proofs were unaffected.
+
+A second, subtler refinement was structural rather than a bug: building at
+maximal granularity revealed that the runner and validator scripts each had to
+add PrologAI library directories the slice's equivalents did not need - the
+runner adds the grounding engine and the conformance harness, and the validator
+adds the Lattice pack - because each region co-locates its structure with its
+runtime. This was not patched away; it was accepted, commented in the scripts,
+and written up as finding ATOMIC-4. Refinement here means naming the cost
+honestly, not hiding it.
+
+
+WHAT REFINEMENT DELIBERATELY DID NOT DO
+
+It did not tune the behaviour to be "better" than the slice - the whole point is
+that the behaviour is held identical. It did not add a shim or facade to paper
+over the packaging gaps - those gaps are the product. And it made no change to
+PrologAI, Mentova, or the frozen spike. The refinement effort went entirely into
+verification and honest measurement.

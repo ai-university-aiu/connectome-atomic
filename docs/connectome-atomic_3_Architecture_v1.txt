@@ -1,0 +1,177 @@
+CONNECTOME-ATOMIC ARCHITECTURE  (v1)
+
+This is the Architecture volume of the six-file SPARC set (Specification,
+Pseudocode, Architecture, Refinement, Completion) for the connectome-atomic
+repository. It describes the repository's structure: its packs and the layers
+they occupy, the substrate they run on, how they coordinate, the interfaces
+between them, and where they reuse PrologAI read-only. The repository is FROZEN;
+this file DESCRIBES the built structure and changes no code.
+
+Acronyms are spelled out on first use. Proper names (Ed25519, SWI-Prolog, JSON,
+Git) are written verbatim. Author: the PrologAI Community.
+
+
+THE DECOMPOSITION RULE THIS STRUCTURE EMBODIES
+
+One pack per named construct. If the Wave 2 slice names a construct, this arm
+gives it its own pack. Eleven packs carve the identical anatomy the slice built
+in six. Three of the eleven are deliberate shared-infrastructure packs; the
+other eight are one-per-construct anatomical packs.
+
+
+THE PACK GRAPH (an indented tree, top of the stack first)
+
+Layer numbers rise with dependency depth. Every import points DOWNWARD (to an
+equal-or-lower layer); no import points upward. Arrows below read "imports".
+
+  Layer 5  INTERFACES (conduits) - nothing imports these
+    corticostriatal_conduit  (computational projection: 2 ports + 1 conduit)
+      -> cortex        (Layer 4, for the cortical output port's bearer id)
+      -> striatum      (Layer 4, for the input port's bearer + realizable id)
+      -> plasticity    (Layer 3, for the drive occurrent + the transform id)
+      -> causal_grounding (Layer 0, the minting vocabulary)
+    nigrostriatal_conduit  (transmissive projection: 2 ports + 1 conduit)
+      -> dopamine      (Layer 2, for the source continuant + release occurrent id)
+      -> striatum      (Layer 4, for the target continuant id)
+      -> causal_grounding (Layer 0)
+
+  Layer 4  REGIONS - the loop's three acting sites
+    cortex   (runtime: origin + re-entry; structure: continuant, action-selection
+              occurrent, cross-stratal bridge)
+      -> neural_lattice (Layer 0, coordination)
+      -> causal_grounding, neuroendocrine_strata (Layers 0, 1)
+      -> dopamine (Layer 2) STRUCTURE-ONLY, solely for the bridge's fine
+         occurrent ids (finding ATOMIC-1: the runtime never calls dopamine)
+    striatum (runtime: dopamine-gated plasticity; structure: continuant + realizable)
+      -> neural_lattice (Layer 0)
+      -> causal_grounding, neuroendocrine_strata (Layers 0, 1)
+      -> dopamine, cortisol (Layer 2), plasticity (Layer 3)
+         (finding ATOMIC-2: three neurochemical imports where the slice had one)
+    thalamus (runtime: relay that closes the loop + carries the cortisol event;
+              structure: continuant)
+      -> neural_lattice (Layer 0)
+      -> causal_grounding, neuroendocrine_strata (Layers 0, 1)
+      -> cortisol (Layer 2, for the surge level and the decay)
+
+  Layer 3  COMPUTATION
+    plasticity (dynamics: the three-factor rule; structure: drive + weight-change
+                occurrents, the corticostriatal transform causal_relation_object)
+      -> causal_grounding, neuroendocrine_strata (Layers 0, 1)
+      -> cortisol (Layer 2, for the suppression factor)
+
+  Layer 2  NEUROCHEMICALS
+    dopamine  (dynamics: reward schedule + reward-prediction-error; structure:
+               substantia-nigra continuant + two release occurrents)
+      -> causal_grounding, neuroendocrine_strata (Layers 0, 1)
+    cortisol  (dynamics: suppression, decay, surge; structure: two occurrents,
+               the skipping causal_relation_object, a token episode, and an
+               Ed25519-signed provenance assertion)
+      -> causal_grounding, neuroendocrine_strata (Layers 0, 1)
+      -> causal_core (PrologAI, external, for the skip classification)
+
+  Layer 1  THE STRATUM LADDER (shared infrastructure)
+    neuroendocrine_strata (the five strata: macromolecular, synaptic, cellular,
+                           region, community-and-society)
+      -> causal_grounding (Layer 0)
+
+  Layer 0  SUBSTRATE (shared infrastructure)
+    neural_lattice   (stigmergy for state + notification for reactivity)
+      -> library(lattice) (PrologAI, external)
+    causal_grounding (the shared Causalontology 2.0.0 minting vocabulary)
+      -> library(causal_core), library(signing) (PrologAI, external)
+
+
+THE THREE SHARED-INFRASTRUCTURE DECISIONS
+
+The atomic rule could split these, but each split would either duplicate or
+pre-empt another experiment, so each is kept whole and recorded as a measurement:
+
+• neural_lattice - the closure substrate. Splitting the one coordination door
+  into pieces is not granularity; it fragments the single Lattice nexus every
+  region shares. Kept whole.
+• causal_grounding - the minting vocabulary. Re-implementing the minting helpers
+  inside each of the nine record-owning packs would be pure duplication. Kept
+  whole; the record DEFINITIONS are distributed, the minting HOW is shared.
+• neuroendocrine_strata - the stratum ladder. Splitting it one-pack-per-stratum
+  is precisely the strata arm's defining move, so keeping it whole here keeps the
+  three arms distinct and comparable.
+
+
+THE COORDINATION SUBSTRATE (THE LATTICE)
+
+The three region threads never address one another. They coordinate entirely
+through one PrologAI Lattice nexus at a fixed address (a Uniform Resource
+Identifier, or URI, of the form locus://localhost/connectome_slice). The
+discipline has two halves:
+
+• Stigmergy for state. A region hands the beat on by posting a numbered PHASE
+  CUE (phase_0, phase_1, phase_2) carrying the whole circulating state snapshot.
+  The cue name is a POSITIONAL SLOT NUMBER, never the identity of who picks it
+  up. Exactly one cue exists at any instant: each region TAKES its cue when it
+  acts, then POSTS the next slot's cue, so the ring is deterministic and only one
+  region is ever active.
+
+• Notification for reactivity. A region blocks on its own phase cue with an await
+  call (lattice_await) and is woken by the notification (lattice_notify) that
+  every Lattice write performs. There is no busy-poll: a region sleeps on a
+  private message queue until a write wakes it.
+
+The reentrant thalamus-to-cortex return is just another posted cue. The upward
+edge the strict layer rule forbids as a static import therefore exists only at
+runtime, which is exactly how the loop closes without violating the layer graph.
+
+
+INTERFACES BETWEEN PACKS
+
+Two kinds of pack-to-pack interface appear:
+
+• Runtime interface - the numbered phase cue. Regions touch one another ONLY
+  through the Lattice, by phase cues. This is the zero-coupling seam that
+  check_no_coupling.sh guards for the three region packs.
+
+• Structure interface - the exported record accessor. Because minting is
+  distributed one-per-construct, a pack that references another pack's record
+  imports that pack and calls a hand-written accessor predicate it exports (for
+  example the corticostriatal_conduit reads cortex_continuant, striatum_continuant,
+  and plasticity_transform_cro). PrologAI offers no cross-pack record registry, so
+  every grounded pack publishes bespoke identifier accessors and every downstream
+  pack imports them. This coupling concentrates at the Layer 5 interfaces and is
+  the substance of findings ATOMIC-2 and ATOMIC-3.
+
+Measured intra-repository import edges: twenty-nine across eleven packs (roughly
+2.6 per pack), against the slice's five across six packs (0.83 per pack). Edges
+grew about 5.8 times while packs grew about 1.8 times: coupling grows faster than
+pack count, densest at the regions (striatum imports six) and the interfaces.
+
+
+WHERE THE ARM REUSES PROLOGAI (READ-ONLY)
+
+The repository imports no copy of PrologAI. It resolves a local checkout at
+runtime through the environment variable PROLOGAI_HOME (default
+/home/ccaitwo/PrologAI) and puts specific PrologAI directories on the SWI-Prolog
+library path. The PrologAI packs and harness directories reused, all unmodified:
+
+• library(lattice) - the stigmergy plus await/notify coordination door.
+• library(cyclic_actor) (the actors pack) - the background region threads.
+• library(causal_core) - the Causalontology 2.0.0 engine (identity, kind,
+  semantics, the Section-twelve algorithms), delivered in WP-425.
+• library(layer) - the strict-layer-rule checker (report and check by directory).
+• library(signing), library(schema_check), library(ed25519), and the
+  tests/causalontology_conformance harness - the additive conformance layers
+  (JSON-schema validation, pure-Prolog Ed25519 signing and verification).
+
+Because each region pack co-locates its structure record with its runtime,
+loading a region for STRUCTURE validation also pulls in the Lattice, and running
+the pure BEHAVIOUR also pulls in the grounding engine. The runner and the
+validator scripts therefore each add library directories the slice's equivalents
+did not need. This is the load-time face of the atomic co-location, recorded as
+finding ATOMIC-4, and it is documented directly in the script comments.
+
+
+THE ARTIFACTS THE STRUCTURE PRODUCES
+
+The validator writes twenty-eight files under structure/, one JSON record per
+construct. Their content-addressed identifiers are byte-identical to the slice's,
+which is the evidence that the Causalontology 2.0.0 content-addressed identity
+model is decomposition-agnostic: distributing the minting across nine packs cost
+the data nothing.

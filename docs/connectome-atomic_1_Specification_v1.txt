@@ -1,0 +1,180 @@
+CONNECTOME-ATOMIC SPECIFICATION  (v1)
+
+This is the Specification volume of the six-file SPARC set for the
+connectome-atomic repository. SPARC is a five-phase software method:
+Specification, Pseudocode, Architecture, Refinement, Completion. This file is
+phase one: it states, completely and before any code is read as authoritative,
+what the repository must do and the qualities it must have. The repository is
+FROZEN. This document DESCRIBES what was built and why; it proposes and makes no
+change to any code, pack, structure record, test, checker, or Continuous
+Integration (CI) workflow. Adding these six documentation files touches no code,
+which preserves the frozen guarantee.
+
+Every acronym is spelled out on first use. Author of this document set: the
+PrologAI Community.
+
+
+ONE-SENTENCE PURPOSE
+
+connectome-atomic is the CONTROL arm of the Wave 3 granularity experiment: it
+re-carves the Wave 2 vertical slice (connectome-proto-agi) under one
+decomposition rule - one pack per named construct - while holding the behaviour,
+the twenty-eight Causalontology 2.0.0 structure records, the dynamics, and the
+closure mechanism byte-identical to the slice, so that the single variable under
+test is how big a code-pack should be.
+
+THE DELIVERABLE IS THE FINDING, NOT THE CODE. The product of this repository is
+two prose files: LEDGER.md (the ATOMIC-1 through ATOMIC-7 findings, each a wall
+the maximal-granularity rule hit) and COMPARISON.md (the side-by-side rubric).
+The running code exists to earn those findings honestly.
+
+
+FUNCTIONAL REQUIREMENTS (WHAT THE REPOSITORY DELIVERS)
+
+• FR1 - Close the reentrant loop. The repository must tick the cortico-basal-
+ganglia-thalamo-cortical loop (cortex, then striatum, then thalamus, then back
+to cortex) for a requested number of laps N, and PROVE it closed: exactly 3N+1
+hops, a strictly monotonic token running 1 through 3N+1, the region sequence
+cortex followed by N repetitions of striatum-thalamus-cortex, and the cortex
+re-entering N times plus the seed. The runner exits 0 only on a proven close.
+
+• FR2 - Hold behaviour identical to the slice. The narrated, glass-box trace the
+loop prints must be byte-identical to the Wave 2 slice's trace, verified by a
+direct comparison (the Git command "diff"). Carving the code a new way must
+change nothing the loop does.
+
+• FR3 - Mint the twenty-eight records. The repository must mint the same
+twenty-eight Causalontology 2.0.0 records the slice minted - same identifiers,
+same content - but distributed one-per-construct across nine record-owning
+packs. Regenerating the records and comparing them against the slice's must show
+every content-addressed identifier matching.
+
+• FR4 - Carve at maximal granularity. The identical anatomy must be split into
+eleven packs across six layers under the rule one pack per named construct, with
+exactly three deliberate shared-infrastructure exceptions (the closure
+substrate, the minting vocabulary, and the five-stratum ladder are each kept
+whole and recorded as measurements, not split).
+
+• FR5 - Coordinate only through the Lattice. The three region packs (cortex,
+striatum, thalamus) must coordinate purely by stigmergy for state plus
+notification for reactivity: each posts a numbered phase cue and blocks on its
+own phase cue, woken by the notification every Lattice write performs. There
+must be zero actor-to-actor references (no region names, imports, or addresses
+another region) and no busy-poll (a region blocks on a queue, it never spins).
+
+• FR6 - Reuse PrologAI read-only. Every run must reuse a local PrologAI checkout
+UNMODIFIED, resolved through the environment variable PROLOGAI_HOME (default
+/home/ccaitwo/PrologAI). A platform limitation surfaced during the build becomes
+a Ledger entry, never a commit to PrologAI. Mentova and the frozen spike are
+untouched.
+
+• FR7 - Emit the finding. The repository must produce the LEDGER (seven findings
+in a fresh ATOMIC series) and the COMPARISON rubric that measure what building
+the identical anatomy at maximal granularity revealed the platform still lacks.
+
+
+NON-FUNCTIONAL REQUIREMENTS (QUALITIES IT MUST HAVE)
+
+• Grounding in Causalontology 2.0.0. Every structure record is a Causalontology
+2.0.0 record validated by PrologAI's conformance engine (delivered in Work
+Package four hundred twenty-five, WP-425): each record satisfies its kind's
+JavaScript Object Notation (JSON) schema and the local semantic rules, its
+identity is the content-addressed hash the engine computes, and identifiers are
+whole English words (the causal relation object is spelled causal_relation_object
+in full, never abbreviated). The cut touches ten distinct Causalontology kinds:
+stratum, occurrent, continuant, realizable, port, conduit, causal_relation_object,
+bridge, token, and assertion.
+
+• The strict layer rule. Every pack declares an integer layer in its manifest.
+No pack may hold a static import that points UPWARD in the layer order.
+PrologAI's own layer construct (library(layer), unmodified) must report zero
+upward edges across the six declared levels, zero through five.
+
+• The closure discipline. The one edge the anatomy needs that the layer rule
+forbids as a static import - the thalamus returning the beat up to the cortex -
+must exist only at RUNTIME, as a numbered phase cue posted through the Lattice,
+never as a static module import from a lower layer to a higher one. The loop
+closes dynamically or not at all.
+
+• The safety invariant for a granularity arm - the ONE decomposition rule. The
+defining safety property of a granularity experiment arm is that it holds its
+one rule exactly and changes nothing else. connectome-atomic's rule is one pack
+per named construct; the invariant is that behaviour, the twenty-eight records,
+the dynamics, and the closure mechanism are provably held constant with the
+slice while only the pack boundaries move. The proof is the byte-identical trace
+and the byte-identical records. A granularity arm that changed behaviour would
+be measuring two variables at once and would be void.
+
+• English-Readable-Code (ERC). Every line of code in every Prolog file carries
+one plain-English comment immediately above it, so the modules, the manifests,
+the tests, and the runner scripts all read as structured English.
+
+
+OBJECTIVES, CONSTRAINTS, ACCEPTANCE CRITERIA
+
+Objectives. Measure the one-pack-per-construct rule against the slice on eight
+rubric axes (pack count, change locality, coupling, layer-rule pressure,
+testability, grounding fit, ergonomics and new gaps, and a scale verdict), and
+surface what only a high pack count reveals the platform lacks.
+
+Constraints. Not a new slice; not the full one-hundred-forty-construct
+connectome (it replicates the slice and projects to scale); not a modification
+of PrologAI, Mentova, or the frozen spike; a gap is a Ledger entry, not a
+commit; SWI-Prolog version nine is required.
+
+Acceptance criteria - the gates the repository must pass, each an exit code of
+zero:
+
+• bin/run_slice.sh - the reentrant loop closes for N laps with the proven
+closure verdict and a byte-identical trace.
+
+• bin/check_layers.sh - PrologAI's unmodified layer construct reports zero
+upward edges across the eleven packs.
+
+• bin/check_no_coupling.sh - the three region packs share only the Lattice; zero
+actor-to-actor references in code, and the cues are numbered phase slots.
+
+• bin/validate_structure.sh - all twenty-eight records validate against the
+Causalontology 2.0.0 schemas and semantics; the cortisol skipping causal
+relation object classifies as skipping with no skip-gap; the Ed25519-signed
+provenance assertion verifies.
+
+• bin/run_tests.sh - every pack's in-pack test suite passes (the PrologAI Unit,
+or PLUnit, framework).
+
+• The mini regression - a ten percent spot-check of the two solved benchmarks:
+the Abstraction and Reasoning Corpus for Artificial General Intelligence, first
+generation (ARC-AGI-1), scoring forty of forty sampled tasks, and the second
+generation (ARC-AGI-2), scoring twelve of twelve sampled tasks. The full
+regression is deferred; only the spot-check is claimed.
+
+
+REFLECTION ON THE MAIN DESIGN CHOICES
+
+The central choice is where to draw the pack boundary. The atomic answer is the
+maximal one: if a construct is named in the slice, it gets its own pack. This is
+chosen deliberately as the CONTROL arm - the extreme end of the granularity
+axis - so the loops arm and the strata arm can be read against a clean baseline.
+
+Three shared-infrastructure exceptions were accepted as trade-offs and recorded
+as measurements. Splitting the minting vocabulary per construct would be
+duplication, not granularity; splitting the closure substrate would fragment the
+one coordination door; and splitting the stratum ladder per stratum is precisely
+the next arm's defining move, so keeping it whole keeps the three arms distinct
+and comparable. Each exception is a conscious answer to the question "how does
+atomic granularity handle shared infrastructure?" rather than an oversight.
+
+The second choice is to co-locate each construct's runtime with its structure
+record in one pack. This buys the headline win - perfect change locality, since
+retuning any one construct touches exactly one pack - at a measured cost: it
+fuses a construct's two dependency faces, so validating structure drags in the
+runtime substrate and running the pure behaviour drags in the grounding engine
+(finding ATOMIC-4). The trade-off is accepted precisely so the experiment can
+report it. The known cost of maximal granularity - coupling that grows faster
+than pack count, concentrated at the interfaces - is not hidden; it is the point
+of the measurement, and it is quantified in the Comparison volume.
+
+SPARC note: this Specification is one of six volumes. The logic of the main
+flows is given in the Pseudocode volume; the structure in the Architecture
+volume; the verification in the Refinement volume; the delivered status in the
+Completion volume; and the demonstration plan in the Demonstration volume.

@@ -1,0 +1,136 @@
+CONNECTOME-ATOMIC DEMONSTRATION  (v1)
+
+This is the Demonstration volume for the connectome-atomic repository. It is the
+owner's addition to the five SPARC phases (Specification, Pseudocode,
+Architecture, Refinement, Completion), not a sixth SPARC phase. It is a PLAN of
+intent for demonstrating the repository: what to run, what each run shows, which
+capabilities it exhibits, and what a viewer should conclude. It is a plan, not a
+finished demonstration.
+
+The repository is FROZEN; this file DESCRIBES how one would demonstrate the
+built, immutable code and changes nothing. Acronyms are spelled out on first use.
+Author: the PrologAI Community.
+
+
+THE ONE THING THIS DEMONSTRATION MUST LAND
+
+A viewer should leave convinced of a single claim: the SAME anatomy, carved a
+DIFFERENT way, behaves and grounds IDENTICALLY, and the price of the maximal-
+granularity carving is visible, measured, and honestly reported. The demo is not
+a product pitch; it is the presentation of a controlled measurement.
+
+
+PREREQUISITES TO SET UP BEFORE DEMONSTRATING
+
+• SWI-Prolog version nine installed.
+• A local PrologAI checkout reachable through the environment variable
+  PROLOGAI_HOME (default /home/ccaitwo/PrologAI), reused read-only and unmodified.
+• A terminal at the repository root. No build step is needed; the gates assemble
+  the library path themselves.
+
+
+THE DEMONSTRATION SEQUENCE (WHAT TO RUN, AND WHAT EACH SHOWS)
+
+Run the five gates in order. Each exits zero on success, so the whole sequence is
+legible even to a viewer who does not read Prolog.
+
+Step one - the reentrant loop and its glass-box trace.
+  Run: bin/run_slice.sh 8 5 0.4   (eight laps, a cortisol event on lap five,
+  learning rate zero point four).
+  What it shows: a live, narrated trace, one line per hop. Point the viewer at
+  three things. First, the phrase "via lattice" on EVERY hop - the beat always
+  arrives through the shared Lattice, never from a named sender, including the
+  reentrant thalamus-to-cortex return. Second, the token rising by exactly one
+  each hop, and the closing verdict proving the loop ran one through three times
+  N plus one, in the exact region sequence, with the cortex re-entering N times.
+  Third, the dopamine reward-prediction-error falling from one toward zero as the
+  cortex's prediction rises to meet the reward, and - after the one-line CORTISOL
+  EVENT banner on lap five - the weight barely moving despite ongoing reward, the
+  glucocorticoid tone suppressing plasticity across a ten-stratum skip.
+
+Step two - the strict layer rule.
+  Run: bin/check_layers.sh
+  What it shows: PrologAI's UNMODIFIED layer construct, run over the arm's eleven
+  packs, reporting zero upward edges across six levels. The takeaway: the tallest,
+  most-packed of the three arms still obeys the layer rule cleanly.
+
+Step three - the zero-coupling proof.
+  Run: bin/check_no_coupling.sh
+  What it shows: the three region packs share ONLY the Lattice - zero
+  actor-to-actor references in code. The takeaway: the reentrant loop closes
+  without any region ever naming, importing, or addressing another; the upward
+  return lives only at runtime, as a numbered phase cue.
+
+Step four - the Causalontology grounding.
+  Run: bin/validate_structure.sh
+  What it shows: all twenty-eight structure records, minted across nine packs,
+  validating against the Causalontology 2.0.0 schemas and semantics; the cortisol
+  causal_relation_object classifying as skipping with no skip-gap; and the
+  Ed25519-signed provenance assertion verifying. The takeaway: distributing the
+  minting cost the data nothing - a strong result for the content-addressed
+  identity model.
+
+Step five - the in-pack tests.
+  Run: bin/run_tests.sh
+  What it shows: every one of the eleven packs' in-pack test suites (the PrologAI
+  Unit framework, PLUnit) passing. The takeaway: no pack rots silently; each
+  ships its own test from its first commit.
+
+Optional step six - the mini regression.
+  Run the ten percent spot-check of the two solved benchmarks. What it shows,
+  stated honestly: the Abstraction and Reasoning Corpus for Artificial General
+  Intelligence, first generation (ARC-AGI-1), scoring forty of forty sampled
+  tasks, and the second generation (ARC-AGI-2), scoring twelve of twelve sampled
+  tasks. Say plainly that this is a ten percent sample and that the full
+  regression is deferred; do NOT present it as a full four hundred of four hundred
+  or one hundred twenty of one hundred twenty score.
+
+
+THE TWO IDENTITY PROOFS TO SHOW ALONGSIDE
+
+The gates prove the arm WORKS. Two comparisons prove the arm changed nothing but
+the pack boundaries, and they are the heart of a control-arm demonstration:
+
+• Behavioural identity. Show that the narrated trace from step one is
+  byte-identical to the Wave 2 slice's trace, by a direct comparison with the Git
+  "diff" command. Same hops, tokens, weights, dopamine decay, cortisol event.
+
+• Data identity. Show that the twenty-eight records written to structure/ have
+  content-addressed identifiers byte-identical to the slice's. Distributing the
+  minting across nine packs produced the same identifiers.
+
+
+THE CAPABILITIES A VIEWER SHOULD SEE EXHIBITED
+
+• Stigmergic coordination - three background threads closing a reentrant loop
+  through one shared Lattice, with zero direct references and no busy-poll.
+• Glass-box legibility - every hop, every number, and the layer skip narrated in
+  plain language as it happens.
+• Causalontology 2.0.0 grounding - twenty-eight validated records across ten
+  kinds, content-addressed and signed, minted by distributed construct packs.
+• Disciplined decomposition - a six-level layer stack that obeys the strict rule
+  under the heaviest pack count of the three arms.
+• Honest measurement - the LEDGER's seven open findings and the COMPARISON's
+  eight-axis rubric, presented as the actual product.
+
+
+WHAT A VIEWER SHOULD CONCLUDE
+
+• That one pack per named construct buys the best possible change locality:
+  retune any single construct (for example, dopamine's reward schedule) and touch
+  exactly one pack.
+• That the price is real and was measured, not hidden: coupling grows faster than
+  pack count, concentrated at the interfaces; grounding fit is low because
+  construct boundaries cut across the Causalontology kinds; and per-pack ceremony
+  dominates at scale.
+• That the platform held (behaviour, data, the layer rule, the closure discipline
+  all passed) while surfacing four genuinely new packaging gaps and re-confirming
+  three known layer-construct limits.
+• That this arm is FROZEN EVIDENCE - a preserved measurement whose value is that
+  it recorded exactly what maximal granularity revealed, and whose verdict within
+  the three-arm experiment is completed only when the loops arm and the strata arm
+  are read beside it.
+
+The demonstration succeeds if a viewer can say, in one breath: the code ran, the
+behaviour and the data were proven identical to the slice, and the cost of
+carving one pack per construct was shown plainly rather than sold.
