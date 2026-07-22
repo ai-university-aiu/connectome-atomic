@@ -116,7 +116,7 @@ cost).
 single pack owns records of MIXED Causalontology kinds: the cortex owns a
 continuant, an occurrent, and a bridge; cortisol owns two occurrents, a CRO, a
 token, and a signed assertion; each conduit owns two ports and a conduit. The
-pack boundary cuts ACROSS the seventeen kinds rather than along them.
+pack boundary cuts ACROSS the eighteen kinds rather than along them.
 
 This establishes the experiment's baseline: **construct-granularity and
 kind-granularity are ORTHOGONAL cuts of the same anatomy.** The strata arm (3c)

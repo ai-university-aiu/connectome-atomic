@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# validate_structure.sh — validate the arm's Causalontology 2.0.0 structure records.
+# validate_structure.sh — validate the arm's Causalontology 3.0.0 structure records.
 #
 # Assembles the library path over the arm packs plus the PrologAI packs and
 # conformance-harness directory the arm REUSES UNMODIFIED (causal_core = the
-# 2.0.0 engine; schema_check/signing/ed25519 = the additive conformance layers).
+# 3.0.0 engine; schema_check/signing/ed25519 = the additive conformance layers).
 # Because the atomic arm co-locates each region's continuant record WITH its
 # runtime, the validator imports the region packs, which import library(lattice);
 # so — unlike the slice — the Lattice pack must be on the path too (a measured
 # consequence, recorded in the Ledger). The schema/ directory is resolved by
 # schema_check.pl relative to its own source, so validation reads the exact
-# vendored 2.0.0 schemas regardless of the working directory. Exit 0 iff every
+# vendored 3.0.0 schemas regardless of the working directory. Exit 0 iff every
 # record is valid and the skip finding and signature check pass.
 set -u
 # Resolve the arm repository root from this script's location.
@@ -27,7 +27,7 @@ fi
 # Start the library path with every arm pack's prolog directory.
 LIB=""
 for d in packs/*/prolog; do LIB="$LIB -p library=$d"; done
-# Add PrologAI's causal_core engine pack (the 2.0.0 vocabulary).
+# Add PrologAI's causal_core engine pack (the 3.0.0 vocabulary).
 LIB="$LIB -p library=$PROLOGAI_HOME/packs/causal_core/prolog"
 # Add PrologAI's Lattice pack — the region packs (which carry structure records) import it.
 LIB="$LIB -p library=$PROLOGAI_HOME/packs/lattice/prolog"

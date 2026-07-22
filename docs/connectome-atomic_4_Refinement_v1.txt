@@ -51,7 +51,7 @@ independently and each targets one requirement.
 
 • bin/validate_structure.sh - the grounding gate. It runs validate_structure.pl,
   which assembles the twenty-eight records from the nine record-owning packs and
-  checks each against its Causalontology 2.0.0 JSON schema and the local semantic
+  checks each against its Causalontology 3.0.0 JSON schema and the local semantic
   rules, confirms the cortisol causal_relation_object classifies as skipping with
   an empty skip-gap list, and confirms the Ed25519-signed provenance assertion
   verifies. It writes each record to structure/ and prints a per-kind coverage
@@ -78,7 +78,7 @@ These are the proofs that make the experiment valid, not just working.
 • Data identity. The twenty-eight structure records are regenerated from the
   distributed packs and compared against the slice's records. Every
   content-addressed identifier matches. Distributing the minting across nine
-  packs cost the data nothing - strong evidence that the Causalontology 2.0.0
+  packs cost the data nothing - strong evidence that the Causalontology 3.0.0
   content-addressed identity model is decomposition-agnostic and that the
   grounding engine is unaffected by how the record definitions are packaged.
 

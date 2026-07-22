@@ -1,10 +1,10 @@
-/*  Connectome atomic — the Causalontology 2.0.0 structure validator.
+/*  Connectome atomic — the Causalontology 3.0.0 structure validator.
 
     Where the slice loaded ONE causal_map pack, the atomic arm assembles the same
     twenty-eight records from the NINE construct packs that each mint their own
     (the stratum ladder, dopamine, cortisol, plasticity, the three regions, and
     the two conduits). It validates every record against PrologAI's UNMODIFIED
-    Causalontology 2.0.0 conformance engine:
+    Causalontology 3.0.0 conformance engine:
       - co_validate_schema/4  — the record satisfies its kind's JSON schema.
       - causal_core_validate_semantics/3 — the local semantic rules hold.
       - the cortisol CRO classifies as SKIPPING with NO skip-gap (skips:true).
@@ -58,7 +58,7 @@ validate_structure_records(Records) :-
 % -- validate_structure_main/0: run every check, write artifacts, and halt with the verdict.
 validate_structure_main :-
     % Print the banner.
-    format("~n== connectome-atomic :: Causalontology 2.0.0 structure validation ==~n~n", []),
+    format("~n== connectome-atomic :: Causalontology 3.0.0 structure validation ==~n~n", []),
     % Assemble the full labelled record list from the nine construct packs.
     validate_structure_records(Records),
     % Schema- and semantics-validate every record, collecting failures.
@@ -75,7 +75,7 @@ validate_structure_main :-
     ( SchemaFails == [], SkipOk == ok, SignOk == ok
     % Everything passed: announce success and exit 0.
     ->  length(Records, N),
-        format("~nVALIDATION: PASS -- ~w records valid against Causalontology 2.0.0; skip finding and signature verified.~n~n", [N]),
+        format("~nVALIDATION: PASS -- ~w records valid against Causalontology 3.0.0; skip finding and signature verified.~n~n", [N]),
         halt(0)
     % Something failed: announce and exit 1.
     ;   format("~nVALIDATION: FAIL~n", []),

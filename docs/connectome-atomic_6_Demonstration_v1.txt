@@ -64,7 +64,7 @@ Step three - the zero-coupling proof.
 Step four - the Causalontology grounding.
   Run: bin/validate_structure.sh
   What it shows: all twenty-eight structure records, minted across nine packs,
-  validating against the Causalontology 2.0.0 schemas and semantics; the cortisol
+  validating against the Causalontology 3.0.0 schemas and semantics; the cortisol
   causal_relation_object classifying as skipping with no skip-gap; and the
   Ed25519-signed provenance assertion verifying. The takeaway: distributing the
   minting cost the data nothing - a strong result for the content-addressed
@@ -106,7 +106,7 @@ THE CAPABILITIES A VIEWER SHOULD SEE EXHIBITED
   through one shared Lattice, with zero direct references and no busy-poll.
 • Glass-box legibility - every hop, every number, and the layer skip narrated in
   plain language as it happens.
-• Causalontology 2.0.0 grounding - twenty-eight validated records across ten
+• Causalontology 3.0.0 grounding - twenty-eight validated records across ten
   kinds, content-addressed and signed, minted by distributed construct packs.
 • Disciplined decomposition - a six-level layer stack that obeys the strict rule
   under the heaviest pack count of the three arms.

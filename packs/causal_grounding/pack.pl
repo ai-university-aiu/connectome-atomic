@@ -3,7 +3,7 @@ name(causal_grounding).
 % State the fact: version('0.1.0') — a granularity-experiment prototype.
 version('0.1.0').
 % State the fact: title naming the pack as the shared minting helpers every grounded construct reuses.
-title('Connectome atomic — causal_grounding: the shared Causalontology 2.0.0 minting vocabulary').
+title('Connectome atomic — causal_grounding: the shared Causalontology 3.0.0 minting vocabulary').
 % State the fact: author is the PrologAI Community.
 author('PrologAI Community', 'ai.university.aiu@gmail.com').
 % State the fact: home points at the connectome-atomic repository.
