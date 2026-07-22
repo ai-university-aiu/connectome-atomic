@@ -41,7 +41,7 @@ FINAL GATE RESULTS (IN HONEST FORM)
   region packs; coordination is entirely through numbered phase cues on the
   Lattice; no busy-poll (regions block on a queue and are woken by notification).
 
-• Structure grounding - PASS. All twenty-eight Causalontology 2.0.0 records
+• Structure grounding - PASS. All twenty-eight Causalontology 3.0.0 records
   validate against their JSON (JavaScript Object Notation) schemas and the local
   semantic rules; the cut touches ten distinct kinds; the cortisol
   causal_relation_object classifies as skipping with an empty skip-gap list; the

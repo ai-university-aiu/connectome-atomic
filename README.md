@@ -23,7 +23,7 @@ Everything else is held constant and PROVEN so:
   sequence cortex then N×[striatum, thalamus, cortex], the cortex re-entering N
   times). The narrated trace is **byte-identical** to the slice (verified by
   `diff`).
-- **The data layer** — the SAME twenty-eight Causalontology 2.0.0 records, same
+- **The data layer** — the SAME twenty-eight Causalontology 3.0.0 records, same
   ids, same content, here MINTED by the distributed construct packs and proven
   **byte-identical** to the slice's `structure/` by regenerating and `diff`-ing.
 - **The dynamics** — the same dopamine RPE, cortisol suppression, and three-factor
@@ -77,7 +77,7 @@ bin/check_layers.sh
 #     neurochemical, plasticity and interface packs are not regions and are out of scope.)
 bin/check_no_coupling.sh
 
-# 4. Validate every minted Causalontology 2.0.0 structure record + the skip finding + the signature.
+# 4. Validate every minted Causalontology 3.0.0 structure record + the skip finding + the signature.
 #    (bin/validate_structure.sh is the wrapper; it runs the validator implemented in
 #     bin/validate_structure.pl — one validator, two filenames.)
 bin/validate_structure.sh
@@ -113,7 +113,7 @@ form to the slice:
 The loop closes for N laps with a byte-identical trace to the slice; zero
 actor-to-actor references and no busy-poll; every pack declares a layer and the
 layer checker passes with zero upward edges (six levels, 0–5); all 28 minted
-records validate against the Causalontology 2.0.0 schemas and are byte-identical
+records validate against the Causalontology 3.0.0 schemas and are byte-identical
 to the slice's; the mini regression is green (ARC-AGI-1 40/40, ARC-AGI-2 12/12 —
 a 10 percent spot-check; full regression deferred); PrologAI, Mentova, and the
 frozen spike are unmodified. See [`LEDGER.md`](LEDGER.md) for the seven findings

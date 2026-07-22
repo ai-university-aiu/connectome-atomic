@@ -77,7 +77,7 @@ equal-or-lower layer); no import points upward. Arrows below read "imports".
   Layer 0  SUBSTRATE (shared infrastructure)
     neural_lattice   (stigmergy for state + notification for reactivity)
       -> library(lattice) (PrologAI, external)
-    causal_grounding (the shared Causalontology 2.0.0 minting vocabulary)
+    causal_grounding (the shared Causalontology 3.0.0 minting vocabulary)
       -> library(causal_core), library(signing) (PrologAI, external)
 
 
@@ -153,7 +153,7 @@ library path. The PrologAI packs and harness directories reused, all unmodified:
 
 • library(lattice) - the stigmergy plus await/notify coordination door.
 • library(cyclic_actor) (the actors pack) - the background region threads.
-• library(causal_core) - the Causalontology 2.0.0 engine (identity, kind,
+• library(causal_core) - the Causalontology 3.0.0 engine (identity, kind,
   semantics, the Section-twelve algorithms), delivered in WP-425.
 • library(layer) - the strict-layer-rule checker (report and check by directory).
 • library(signing), library(schema_check), library(ed25519), and the
@@ -172,6 +172,6 @@ THE ARTIFACTS THE STRUCTURE PRODUCES
 
 The validator writes twenty-eight files under structure/, one JSON record per
 construct. Their content-addressed identifiers are byte-identical to the slice's,
-which is the evidence that the Causalontology 2.0.0 content-addressed identity
+which is the evidence that the Causalontology 3.0.0 content-addressed identity
 model is decomposition-agnostic: distributing the minting across nine packs cost
 the data nothing.

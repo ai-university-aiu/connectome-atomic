@@ -19,8 +19,8 @@ interface, not expanded here):
 • lattice_open, lattice_put, lattice_take, lattice_await, lattice_notify - the
   Lattice coordination door (post state, take state, block until notified).
 • cyclic_actor, cyclic_actor_stop - run a predicate on a background thread; stop it.
-• co_validate_schema - validate a record against its Causalontology 2.0.0 JSON schema.
-• causal_core_validate_semantics - apply the local Causalontology 2.0.0 semantic rules.
+• co_validate_schema - validate a record against its Causalontology 3.0.0 JSON schema.
+• causal_core_validate_semantics - apply the local Causalontology 3.0.0 semantic rules.
 • co_verify_record - verify an Ed25519 signature over a record.
 • cm_id, cm_stratum, cm_occ, cm_cnt, cm_rlz, cm_port, cm_conduit, cm_cro,
   cm_bridge - the shared minting vocabulary (COMPOSITE helpers that stamp a
@@ -201,4 +201,4 @@ TEST records_are_identical_to_the_slice:
     GIVEN the twenty-eight records minted across nine packs.
     WHEN each record's content-addressed identifier is compared with the slice's.
     THEN every identifier matches, and all twenty-eight validate against
-        Causalontology 2.0.0, with the skip finding and the signature verified.
+        Causalontology 3.0.0, with the skip finding and the signature verified.
